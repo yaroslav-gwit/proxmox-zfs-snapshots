@@ -6,6 +6,6 @@ import subprocess
 
 command = "qm list"
 command_output = subprocess.check_output(command, shell=True)
-command_output = command_output.decode("utf-8").split("\r")
+command_output = command_output.decode("utf-8").split("\n")
 
 print(command_output)
