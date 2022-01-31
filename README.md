@@ -9,7 +9,7 @@ To update the script run the installer again, or execute the command below:
 bash /opt/proxmox-zfs-snapshots/proxmox_snapshot_updater.sh
 ```
 ### Running:
-This will make a snapshot of every single VM on current node, will set the type to `daily` and will keep 5 snapshots of type daily:
+This will make a snapshot of every single VM on the current node, set the type to `daily` and will keep 5 snapshots of the snapshot type daily:
 ```
 proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5
 ```
