@@ -64,17 +64,18 @@ class All:
         return snapshot_complete
     
     def remove_snapshot(self):
-        
+        snapshot_list = []
         for _dict in self.vm_dict_list:
-            snapshot_list = []
+            
             for _snapshot in _dict["vm_snapshots"]:
                 snapshot_list.append("qm delsnapshot " + _dict["vm_id"] + " " + _snapshot)
-            snapshots_to_delete = snapshot_list.copy()
-            if len(snapshot_list) > self.snapshots_to_keep:
-                for number in range(0, self.snapshots_to_keep -1):
-                    del snapshots_to_delete[number]
         
-        return snapshots_to_delete
+        if len(snapshot_list) > self.snapshots_to_keep:
+            for number in range(0, self.snapshots_to_keep -1):
+                del snapshot_list[number]
+        
+        return snapshot_list
+
 
 app = typer.Typer(context_settings=dict(max_content_width=800))
 
