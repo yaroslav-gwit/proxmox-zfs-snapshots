@@ -27,7 +27,7 @@ class All:
             if not dev:
                 command = "qm listsnapshot " + _vm[0] + "| awk '{print $2}' | grep -Gv \"^current$\" | grep " + snapshot_type
                 command_output = subprocess.check_output(command, shell=True)
-                command_output = command_output.decode("utf-8").split("\n")
+                command_output = command_output.decode("utf-8").split()
             else:
                 command_output = [ "rsnap_custom_20220131_1331", "rsnap_custom_20220131_1332", "rsnap_daily_20220131_1332", "rsnap_weekly_20220131_1332" ]
             if _vm:
