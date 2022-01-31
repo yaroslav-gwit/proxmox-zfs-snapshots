@@ -5,11 +5,12 @@ import os
 import subprocess
 import datetime
 
-dev:bool = False
+
 
 class All:
     """This class creates a list of dicts of VMs"""
-    def __init__(self, snapshot_type:str = "custom",):
+    def __init__(self, snapshot_type:str = "custom", snapshots_to_keep:int = 3, debug:bool=False):
+        dev = debug
         if not dev:
             command = "qm list | tail -n +2"
             command_output = subprocess.check_output(command, shell=True)
@@ -67,14 +68,15 @@ app = typer.Typer(context_settings=dict(max_content_width=800))
 @app.command()
 def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload the config"),
         snapshot_type:str=typer.Option(False, help="Generate, test and reload the config"),
+        debug:bool=typer.Option(False, help="Generate, test and reload the config"),
         ):
 
     '''
     Example: program
     '''
-    for command in All(snapshot_type=snapshot_type).snapshot_all():
+    for command in All(snapshot_type=snapshot_type, debug=debug).snapshot_all():
         print("Running: " + command)
-        if not dev:
+        if not debug:
             subprocess.check_output(command, shell=True)
 
 
