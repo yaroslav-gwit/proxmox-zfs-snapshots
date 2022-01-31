@@ -55,13 +55,26 @@ class All:
 
         self.vm_dict_list = vm_dict_list
         self.snapshot_name = snapshot_name
+        self.snapshots_to_keep = snapshots_to_keep
 
     def snapshot_all(self):
         snapshot_complete = []
         for _dict in self.vm_dict_list:
             snapshot_complete.append("qm snapshot " + _dict["vm_id"] + " " + self.snapshot_name)
-
         return snapshot_complete
+    
+    def remove_snapshot(self):
+        snapshot_list = []
+        for _dict in self.vm_dict_list:
+            for _snapshot in _dict["vm_snapshots"]:
+                snapshot_list.append("qm delsnapshot " + _dict["vm_id"] + " " + _snapshot)
+            snapshots_to_delete = []
+            snapshots_to_delete.copy(snapshot_list)
+            if len(snapshot_list) > self.snapshots_to_keep:
+                for number in range(0, self.snapshots_to_keep):
+                    del snapshots_to_delete[number]
+        
+        return snapshots_to_delete
 
 app = typer.Typer(context_settings=dict(max_content_width=800))
 
@@ -69,16 +82,21 @@ app = typer.Typer(context_settings=dict(max_content_width=800))
 def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload the config"),
         snapshot_type:str=typer.Option(False, help="Generate, test and reload the config"),
         debug:bool=typer.Option(False, help="Generate, test and reload the config"),
+        snapshots_to_keep:int=typer.Option(3, help="Generate, test and reload the config"),
         ):
 
     '''
     Example: program
     '''
-    for command in All(snapshot_type=snapshot_type, debug=debug).snapshot_all():
+    for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep).snapshot_all():
         print("Running: " + command)
         if not debug:
             subprocess.check_output(command, shell=True)
-
+    
+    for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep).remove_snapshot():
+        print("Running: " + command)
+        if not debug:
+            subprocess.check_output(command, shell=True)
 
 @app.command()
 def snapshot(vm_id:str=typer.Argument(False, help="Generate, test and reload the config"),
