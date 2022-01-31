@@ -97,8 +97,8 @@ def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload t
     
     for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep).remove_snapshot():
         print("Running: " + command)
-        # if not debug:
-            # subprocess.check_output(command, shell=True)
+        if not debug:
+            subprocess.check_output(command, shell=True)
 
 @app.command()
 def snapshot(vm_id:str=typer.Argument(False, help="Generate, test and reload the config"),
