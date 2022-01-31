@@ -73,9 +73,13 @@ class All:
                     snapshot_list.append("qm delsnapshot " + _dict["vm_id"] + " " + _snapshot)
             except:
                 print("There are no snapshots to delete at this time.")
-                sys.exit(1)
+                sys.exit(0)
         
         return snapshot_list
+
+
+class Single:
+    """This class is resonsible for single VM snapshot manipulations"""
 
 
 app = typer.Typer(context_settings=dict(max_content_width=800))
