@@ -51,7 +51,7 @@ class All:
         snapshot_date = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         snapshot_name = "rsnap_" + snapshot_type + "_" + snapshot_date
 
-        print(vm_dict_list)
+        # print(vm_dict_list)
 
         self.vm_dict_list = vm_dict_list
         self.snapshot_name = snapshot_name
@@ -64,8 +64,9 @@ class All:
         return snapshot_complete
     
     def remove_snapshot(self):
-        snapshot_list = []
+        
         for _dict in self.vm_dict_list:
+            snapshot_list = []
             for _snapshot in _dict["vm_snapshots"]:
                 snapshot_list.append("qm delsnapshot " + _dict["vm_id"] + " " + _snapshot)
             snapshots_to_delete = snapshot_list.copy()
