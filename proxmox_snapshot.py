@@ -27,7 +27,7 @@ class All:
         
         for _vm in vm_list:
             if not dev:
-                command = "qm listsnapshot " + _vm[0] + "| awk '{print $2}' | grep -Gv \"^current$\" | grep " + snapshot_type
+                command = "qm listsnapshot " + _vm[0] + "| awk '{print $2}' | grep -Gv \"^current$\" | grep " + snapshot_type + " || true"
                 command_output = subprocess.check_output(command, shell=True)
                 command_output = command_output.decode("utf-8").split()
             else:
