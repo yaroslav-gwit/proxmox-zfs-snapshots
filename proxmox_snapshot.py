@@ -5,10 +5,11 @@ import os
 import subprocess
 import datetime
 
+dev:bool = False
 
 class All:
     """This class creates a list of dicts of VMs"""
-    def __init__(self, snapshot_type:str = "custom", dev:bool = False):
+    def __init__(self, snapshot_type:str = "custom",):
         if not dev:
             command = "qm list | tail -n +2"
             command_output = subprocess.check_output(command, shell=True)
@@ -73,7 +74,8 @@ def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload t
     '''
     for command in All(snapshot_type=snapshot_type).snapshot_all():
         print("Running: " + command)
-        # subprocess.check_output(command, shell=True)
+        if not dev:
+            subprocess.check_output(command, shell=True)
 
 
 @app.command()
