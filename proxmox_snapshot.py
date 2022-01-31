@@ -75,10 +75,6 @@ class All:
                 print("There are no snapshots to delete at this time.")
                 sys.exit(1)
         
-            # if len(snapshot_list) > self.snapshots_to_keep:
-            #     for number in range(0, self.snapshots_to_keep -1):
-            #         del snapshot_list[number]
-        
         return snapshot_list
 
 
