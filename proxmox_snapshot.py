@@ -73,6 +73,7 @@ class All:
                     snapshot_list.append("qm delsnapshot " + _dict["vm_id"] + " " + _snapshot)
             except:
                 print("There are no snapshots to delete at this time.")
+                sys.exit(1)
         
             # if len(snapshot_list) > self.snapshots_to_keep:
             #     for number in range(0, self.snapshots_to_keep -1):
