@@ -42,9 +42,10 @@ class All:
             _vm_dict["vm_name"] = item[1]
             _vm_dict["vm_status"] = item[2]
             _vm_dict["vm_snapshots"] = item[-1]
-            if running_vms_only and item[2] == "running":
-                vm_dict_list.append(_vm_dict)
-            else:
+            if running_vms_only:
+                if item[2] == "running":
+                    vm_dict_list.append(_vm_dict)
+            elif not running_vms_only:
                 vm_dict_list.append(_vm_dict)
 
         snapshot_types = ["hourly","daily", "weekly", "monthly", "yearly", "custom"]
