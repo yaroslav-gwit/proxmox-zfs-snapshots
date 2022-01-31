@@ -66,13 +66,17 @@ class All:
     def remove_snapshot(self):
         snapshot_list = []
         for _dict in self.vm_dict_list:
-            
-            for _snapshot in _dict["vm_snapshots"]:
-                snapshot_list.append("qm delsnapshot " + _dict["vm_id"] + " " + _snapshot)
+            start_number = self.snapshots_to_keep -1
+            end_number = len(_dict["vm_snapshots"])
+            try:
+                for _snapshot in _dict["vm_snapshots"][start_number:end_number]:
+                    snapshot_list.append("qm delsnapshot " + _dict["vm_id"] + " " + _snapshot)
+            except:
+                print("There are no snapshots to delete at this time.")
         
-                if len(snapshot_list) > self.snapshots_to_keep:
-                    for number in range(0, self.snapshots_to_keep -1):
-                        del snapshot_list[number]
+            # if len(snapshot_list) > self.snapshots_to_keep:
+            #     for number in range(0, self.snapshots_to_keep -1):
+            #         del snapshot_list[number]
         
         return snapshot_list
 
