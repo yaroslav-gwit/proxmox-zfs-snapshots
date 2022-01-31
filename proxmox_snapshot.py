@@ -91,7 +91,7 @@ def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload t
         ):
 
     '''
-    Example: program
+    Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only
     '''
     for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep, running_vms_only=running_vms_only).snapshot_all():
         print("Running: " + command)
