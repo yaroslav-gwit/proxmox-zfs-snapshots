@@ -16,5 +16,6 @@ else
 
     cat proxmox_snapshot.sh > /bin/proxmox_snapshot
     chmod +x /bin/proxmox_snapshot
+fi
 
 echo "The program was installed successfully!"
