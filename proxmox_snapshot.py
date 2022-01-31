@@ -104,18 +104,16 @@ def snapshot_all(snapshot_type:str=typer.Option(..., help="Specify the snapshot 
 
 
 @app.command()
-def snapshot(vm_id:str=typer.Argument(False, help="Specify the VM ID"),
+def snapshot(vm_id:str=typer.Argument(..., help="Specify the VM ID"),
         ):
 
     '''
     Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only
     '''
 
-    if not vm_id:
-        print("No VM_ID was provided!")
-        sys.exit(1)
-    else:
-        print("Your VM_ID is: " + vm_id)
+    print("Your VM_ID is: " + vm_id)
+    print("Sorry, this function has not been implemented yet")
+    sys.exit(1)
 
 if __name__ == "__main__":
     app()
