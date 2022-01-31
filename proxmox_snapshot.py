@@ -70,9 +70,9 @@ class All:
             for _snapshot in _dict["vm_snapshots"]:
                 snapshot_list.append("qm delsnapshot " + _dict["vm_id"] + " " + _snapshot)
         
-        if len(snapshot_list) > self.snapshots_to_keep:
-            for number in range(0, self.snapshots_to_keep -1):
-                del snapshot_list[number]
+                if len(snapshot_list) > self.snapshots_to_keep:
+                    for number in range(0, self.snapshots_to_keep -1):
+                        del snapshot_list[number]
         
         return snapshot_list
 
