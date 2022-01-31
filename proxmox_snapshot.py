@@ -9,7 +9,7 @@ import datetime
 
 class All:
     """This class creates a list of dicts of VMs"""
-    def __init__(self, snapshot_type:str = "custom", snapshots_to_keep:int = 3, debug:bool=False):
+    def __init__(self, snapshot_type:str = "custom", snapshots_to_keep:int = 3, running_vms_only:bool = False, debug:bool = False):
         dev = debug
         if not dev:
             command = "qm list | tail -n +2"
@@ -42,7 +42,10 @@ class All:
             _vm_dict["vm_name"] = item[1]
             _vm_dict["vm_status"] = item[2]
             _vm_dict["vm_snapshots"] = item[-1]
-            vm_dict_list.append(_vm_dict)
+            if running_vms_only and item[2] == "running":
+                vm_dict_list.append(_vm_dict)
+            else:
+                vm_dict_list.append(_vm_dict)
 
         snapshot_types = ["hourly","daily", "weekly", "monthly", "yearly", "custom"]
         if snapshot_type not in snapshot_types:
@@ -82,13 +85,14 @@ app = typer.Typer(context_settings=dict(max_content_width=800))
 def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload the config"),
         snapshot_type:str=typer.Option(False, help="Generate, test and reload the config"),
         debug:bool=typer.Option(False, help="Generate, test and reload the config"),
+        running_vms_only:bool=typer.Option(False, help="Generate, test and reload the config"),
         snapshots_to_keep:int=typer.Option(3, help="Generate, test and reload the config"),
         ):
 
     '''
     Example: program
     '''
-    for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep).snapshot_all():
+    for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep, running_vms_only=running_vms_only).snapshot_all():
         print("Running: " + command)
         if not debug:
             subprocess.check_output(command, shell=True)
