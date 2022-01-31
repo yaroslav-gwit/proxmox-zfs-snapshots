@@ -51,8 +51,6 @@ class All:
         snapshot_date = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         snapshot_name = "rsnap_" + snapshot_type + "_" + snapshot_date
 
-        # print(vm_dict_list)
-
         self.vm_dict_list = vm_dict_list
         self.snapshot_name = snapshot_name
         self.snapshots_to_keep = snapshots_to_keep
@@ -70,7 +68,6 @@ class All:
             if self.snapshots_to_keep < len(_dict["vm_snapshots"]):
                 for _snapshot in _dict["vm_snapshots"][0:end_number]:
                     snapshot_list.append("qm delsnapshot " + _dict["vm_id"] + " " + _snapshot)
-        
         return snapshot_list
 
 
@@ -79,6 +76,7 @@ class Single:
 
 
 app = typer.Typer(context_settings=dict(max_content_width=800))
+
 
 @app.command()
 def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload the config"),
@@ -99,6 +97,7 @@ def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload t
         print("Running: " + command)
         if not debug:
             subprocess.check_output(command, shell=True)
+
 
 @app.command()
 def snapshot(vm_id:str=typer.Argument(False, help="Generate, test and reload the config"),
