@@ -47,7 +47,7 @@ class All:
         if snapshot_type not in snapshot_types:
             print("Bad snapshot type!")
             sys.exit(1)
-        snapshot_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        snapshot_date = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         snapshot_name = "rsnap_" + snapshot_type + "_" + snapshot_date
 
         print(vm_dict_list)
