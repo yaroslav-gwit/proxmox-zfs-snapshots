@@ -108,7 +108,7 @@ def snapshot(vm_id:str=typer.Argument(..., help="Specify the VM ID"),
         ):
 
     '''
-    Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only
+    WARNING! This function has not been implemented yet!
     '''
 
     print("Your VM_ID is: " + vm_id)
