@@ -92,6 +92,10 @@ def snapshot_all(snapshot_type:str=typer.Option(False, help="Specify the snapsho
     '''
     Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only
     '''
+    if not snapshot_type:
+        print("Please specify a snapshot type!")
+        sys.exit(1)
+
     for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep, running_vms_only=running_vms_only).snapshot_all():
         print("Running: " + command)
         if not debug:
