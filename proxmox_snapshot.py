@@ -30,7 +30,8 @@ class All:
                 command_output = command_output.decode("utf-8").split("\n")
             else:
                 command_output = [ "rsnap_custom_20220131_1331", "rsnap_custom_20220131_1332", "rsnap_daily_20220131_1332", "rsnap_weekly_20220131_1332" ]
-            _vm.append(command_output)
+            if _vm:
+                _vm.append(command_output)
 
         vm_dict_list = []
         for item in vm_list:
