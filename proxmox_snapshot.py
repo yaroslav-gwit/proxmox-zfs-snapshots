@@ -83,11 +83,10 @@ app = typer.Typer(context_settings=dict(max_content_width=800))
 
 
 @app.command()
-def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload the config"),
-        snapshot_type:str=typer.Option(False, help="Generate, test and reload the config"),
-        debug:bool=typer.Option(False, help="Generate, test and reload the config"),
-        running_vms_only:bool=typer.Option(False, help="Generate, test and reload the config"),
-        snapshots_to_keep:int=typer.Option(3, help="Generate, test and reload the config"),
+def snapshot_all(snapshot_type:str=typer.Option(False, help="Specify the snapshot type: hourly, daily, weekly, monthly, yearly or custom"),
+        running_vms_only:bool=typer.Option(False, help="Only snapshot running VMs"),
+        snapshots_to_keep:int=typer.Option(3, help="Specify a number of snapshots to keep"),
+        debug:bool=typer.Option(False, help="Turn on development mode (does not run 'qm' commands)"),
         ):
 
     '''
@@ -105,11 +104,11 @@ def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload t
 
 
 @app.command()
-def snapshot(vm_id:str=typer.Argument(False, help="Generate, test and reload the config"),
+def snapshot(vm_id:str=typer.Argument(False, help="Specify the VM ID"),
         ):
 
     '''
-    Example: program
+    Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only
     '''
 
     if not vm_id:
