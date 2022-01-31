@@ -68,10 +68,9 @@ class All:
         for _dict in self.vm_dict_list:
             for _snapshot in _dict["vm_snapshots"]:
                 snapshot_list.append("qm delsnapshot " + _dict["vm_id"] + " " + _snapshot)
-            snapshots_to_delete = []
-            snapshots_to_delete.copy(snapshot_list)
+            snapshots_to_delete = snapshot_list.copy()
             if len(snapshot_list) > self.snapshots_to_keep:
-                for number in range(0, self.snapshots_to_keep):
+                for number in range(0, self.snapshots_to_keep -1):
                     del snapshots_to_delete[number]
         
         return snapshots_to_delete
@@ -95,8 +94,8 @@ def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload t
     
     for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep).remove_snapshot():
         print("Running: " + command)
-        if not debug:
-            subprocess.check_output(command, shell=True)
+        # if not debug:
+            # subprocess.check_output(command, shell=True)
 
 @app.command()
 def snapshot(vm_id:str=typer.Argument(False, help="Generate, test and reload the config"),
