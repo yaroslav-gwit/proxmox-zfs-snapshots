@@ -23,14 +23,14 @@ class All:
                 _line = item.split()
                 vm_list.append(_line)
         
-        for item in vm_list:
+        for _vm in vm_list:
             if not dev:
-                command = "qm listsnapshot 107 | awk '{print $2}' | grep -Gv \"^current$\" | grep " + _snapshot_type_
+                command = "qm listsnapshot " + _vm[0] + "| awk '{print $2}' | grep -Gv \"^current$\" | grep " + snapshot_type
                 _command_output = subprocess.check_output(command, shell=True)
                 _command_output = command_output.decode("utf-8").split("\n")
             else:
                 _command_output = [ "rsnap_custom_20220131_1331", "rsnap_custom_20220131_1332", "rsnap_daily_20220131_1332", "rsnap_weekly_20220131_1332" ]
-            item.append(_command_output)
+            _vm.append(_command_output)
 
         vm_dict_list = []
         for item in vm_list:
