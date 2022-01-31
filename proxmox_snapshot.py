@@ -83,7 +83,7 @@ app = typer.Typer(context_settings=dict(max_content_width=800))
 
 
 @app.command()
-def snapshot_all(snapshot_type:str=typer.Option(False, help="Specify the snapshot type: hourly, daily, weekly, monthly, yearly or custom"),
+def snapshot_all(snapshot_type:str=typer.Option(..., help="Specify the snapshot type: hourly, daily, weekly, monthly, yearly or custom"),
         running_vms_only:bool=typer.Option(False, help="Only snapshot running VMs"),
         snapshots_to_keep:int=typer.Option(3, help="Specify a number of snapshots to keep"),
         debug:bool=typer.Option(False, help="Turn on development mode (does not run 'qm' commands)"),
@@ -92,10 +92,6 @@ def snapshot_all(snapshot_type:str=typer.Option(False, help="Specify the snapsho
     '''
     Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only
     '''
-    if not snapshot_type:
-        print("Please specify a snapshot type!")
-        sys.exit(1)
-
     for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep, running_vms_only=running_vms_only).snapshot_all():
         print("Running: " + command)
         if not debug:
