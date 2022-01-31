@@ -4,7 +4,7 @@ Run this one liner to install the script:
 ```
 curl https://raw.githubusercontent.com/yaroslav-gwit/proxmox-zfs-snapshots/main/proxmox_snapshot_installer.sh | bash 
 ```
-To update the script, execute the next command:
+To update the script, run the installer again, or execute the command below:
 ```
 bash /opt/proxmox-zfs-snapshots/proxmox_snapshot_updater.sh
 ```
