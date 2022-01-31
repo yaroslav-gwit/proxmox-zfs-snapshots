@@ -20,19 +20,9 @@ proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --runn
 
 Example output:
 ```
-root@proxmox-node-03:~# proxmox_snapshot snapshot-all --snapshot-type weekly --snapshots-to-keep 5
-Running: qm snapshot 107 rsnap_weekly_20220131_181233
-Running: qm snapshot 118 rsnap_weekly_20220131_181233
-Running: qm delsnapshot 107 rsnap_weekly_20220131_160442
-Running: qm delsnapshot 107 rsnap_weekly_20220131_160631
-Running: qm delsnapshot 107 rsnap_weekly_20220131_160946
-Running: qm delsnapshot 107 rsnap_weekly_20220131_161537
-Running: qm delsnapshot 107 rsnap_weekly_20220131_161708
-Running: qm delsnapshot 107 rsnap_weekly_20220131_162005
-Running: qm delsnapshot 118 rsnap_weekly_20220131_160442
-Running: qm delsnapshot 118 rsnap_weekly_20220131_160631
-Running: qm delsnapshot 118 rsnap_weekly_20220131_160946
-Running: qm delsnapshot 118 rsnap_weekly_20220131_161537
-Running: qm delsnapshot 118 rsnap_weekly_20220131_161708
-Running: qm delsnapshot 118 rsnap_weekly_20220131_162005
+root@proxmox-node-03:~# proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5
+Running: qm snapshot 107 rsnap_daily_20220131_190342
+Running: qm snapshot 118 rsnap_daily_20220131_190342
+Running: qm delsnapshot 107 rsnap_daily_20220131_164141
+Running: qm delsnapshot 118 rsnap_daily_20220131_164141
 ```
