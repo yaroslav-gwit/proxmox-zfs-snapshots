@@ -66,7 +66,7 @@ class All:
     def remove_snapshot(self):
         snapshot_list = []
         for _dict in self.vm_dict_list:
-            start_number = self.snapshots_to_keep -1
+            start_number = self.snapshots_to_keep
             end_number = len(_dict["vm_snapshots"])
             try:
                 for _snapshot in _dict["vm_snapshots"][start_number:end_number]:
