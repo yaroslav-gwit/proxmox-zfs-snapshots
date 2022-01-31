@@ -8,19 +8,29 @@ import datetime
 
 class All:
     """This class creates a list of dicts of VMs"""
-    def __init__(self, snapshot_type:str = "custom"):
-        command = "qm list | tail -n +2"
-        command_output = subprocess.check_output(command, shell=True)
-        command_output = command_output.decode("utf-8").split("\n")
-
-        """Example output for testing"""
-        # command_output = ['       107 haku12.icr.ac.uk     running    16384             50.00 1283519   ', '       118 haku04.icr.ac.uk     running    8500            1024.00 3267143   ', '']
+    def __init__(self, snapshot_type:str = "custom", dev:bool = False):
+        if not dev:
+            command = "qm list | tail -n +2"
+            command_output = subprocess.check_output(command, shell=True)
+            command_output = command_output.decode("utf-8").split("\n")
+        else:
+            """Example output for testing"""
+            command_output = ['       107 haku12.icr.ac.uk     running    16384             50.00 1283519   ', '       118 haku04.icr.ac.uk     running    8500            1024.00 3267143   ', '']
 
         vm_list = []
         for item in command_output:
             if item:
                 _line = item.split()
                 vm_list.append(_line)
+        
+        for item in vm_list:
+            if not dev:
+                command = "qm listsnapshot 107 | awk '{print $2}' | grep -Gv \"^current$\" | grep " + _snapshot_type_
+                _command_output = subprocess.check_output(command, shell=True)
+                _command_output = command_output.decode("utf-8").split("\n")
+            else:
+                _command_output = [ "rsnap_custom_20220131_1331", "rsnap_custom_20220131_1332", "rsnap_daily_20220131_1332", "rsnap_weekly_20220131_1332" ]
+            item.append(_command_output)
 
         vm_dict_list = []
         for item in vm_list:
@@ -28,8 +38,8 @@ class All:
             _vm_dict["vm_id"] = item[0]
             _vm_dict["vm_name"] = item[1]
             _vm_dict["vm_status"] = item[2]
+            _vm_dict["vm_snapshots"] = item[-1]
             vm_dict_list.append(_vm_dict)
-
 
         snapshot_types = ["hourly","daily", "weekly", "monthly", "yearly", "custom"]
         if snapshot_type not in snapshot_types:
@@ -37,6 +47,8 @@ class All:
             sys.exit(1)
         snapshot_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
         snapshot_name = "rsnap_" + snapshot_type + "_" + snapshot_date
+
+        print(vm_dict_list)
 
         self.vm_dict_list = vm_dict_list
         self.snapshot_name = snapshot_name
@@ -60,7 +72,7 @@ def snapshot_all(take:bool=typer.Option(False, help="Generate, test and reload t
     '''
     for command in All(snapshot_type=snapshot_type).snapshot_all():
         print("Running: " + command)
-        subprocess.check_output(command, shell=True)
+        # subprocess.check_output(command, shell=True)
 
 
 @app.command()
