@@ -75,8 +75,10 @@ class All:
         return snapshot_list
 
 
+
 class Single:
     """This class is resonsible for single VM snapshot manipulations"""
+
 
 
 app = typer.Typer(context_settings=dict(max_content_width=800))
@@ -88,10 +90,9 @@ def snapshot_all(snapshot_type:str=typer.Option(..., help="Specify the snapshot 
         snapshots_to_keep:int=typer.Option(3, help="Specify a number of snapshots to keep"),
         debug:bool=typer.Option(False, help="Turn on development mode (does not run 'qm' commands)"),
         ):
+    
+    """ Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only """
 
-    '''
-    Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only
-    '''
     for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep, running_vms_only=running_vms_only).snapshot_all():
         print("Running: " + command)
         if not debug:
@@ -107,13 +108,13 @@ def snapshot_all(snapshot_type:str=typer.Option(..., help="Specify the snapshot 
 def snapshot(vm_id:str=typer.Argument(..., help="Specify the VM ID"),
         ):
 
-    '''
-    WARNING! This function has not been implemented yet!
-    '''
+    """ WARNING! This function has not been implemented yet! """
 
     print("Your VM_ID is: " + vm_id)
     print("Sorry, this function has not been implemented yet")
     sys.exit(1)
+
+
 
 if __name__ == "__main__":
     app()
