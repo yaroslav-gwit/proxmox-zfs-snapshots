@@ -9,6 +9,7 @@ import datetime
 
 class All:
     """This class creates a list of dicts of VMs"""
+    
     def __init__(self, snapshot_type:str = "custom", snapshots_to_keep:int = 3, running_vms_only:bool = False, debug:bool = False):
         dev = debug
         if not dev:
@@ -59,11 +60,13 @@ class All:
         self.snapshot_name = snapshot_name
         self.snapshots_to_keep = snapshots_to_keep
 
+    
     def snapshot_all(self):
         snapshot_complete = []
         for _dict in self.vm_dict_list:
             snapshot_complete.append("qm snapshot " + _dict["vm_id"] + " " + self.snapshot_name)
         return snapshot_complete
+    
     
     def remove_snapshot(self):
         snapshot_list = []
@@ -77,7 +80,7 @@ class All:
 
 
 class Single:
-    """This class is resonsible for single VM snapshot manipulations"""
+    """This class will be resonsible for single VM snapshot manipulations"""
 
 
 
@@ -85,11 +88,12 @@ app = typer.Typer(context_settings=dict(max_content_width=800))
 
 
 @app.command()
-def snapshot_all(snapshot_type:str=typer.Option(..., help="Specify the snapshot type: hourly, daily, weekly, monthly, yearly or custom"),
+def snapshot_all(
+        snapshot_type:str=typer.Option(..., help="Specify the snapshot type: hourly, daily, weekly, monthly, yearly or custom"),
         running_vms_only:bool=typer.Option(False, help="Only snapshot running VMs"),
         snapshots_to_keep:int=typer.Option(3, help="Specify a number of snapshots to keep"),
         debug:bool=typer.Option(False, help="Turn on development mode (does not run 'qm' commands)"),
-        ):
+    ):
     
     """ Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only """
 
@@ -105,8 +109,9 @@ def snapshot_all(snapshot_type:str=typer.Option(..., help="Specify the snapshot 
 
 
 @app.command()
-def snapshot(vm_id:str=typer.Argument(..., help="Specify the VM ID"),
-        ):
+def snapshot(
+        vm_id:str=typer.Argument(..., help="Specify the VM ID"),
+    ):
 
     """ WARNING! This function has not been implemented yet! """
 
