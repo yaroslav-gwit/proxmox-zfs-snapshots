@@ -26,3 +26,12 @@ Running: qm snapshot 118 rsnap_daily_20220131_190342
 Running: qm delsnapshot 107 rsnap_daily_20220131_164141
 Running: qm delsnapshot 118 rsnap_daily_20220131_164141
 ```
+
+### Scheduling
+Add this to your `/etc/crontab` to get a complete backup solution
+```
+@hourly   root    proxmox_snapshot snapshot-all --snapshot-type hourly --snapshots-to-keep 5 --running-vms-only
+@daily    root    proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 3 --running-vms-only
+@weekly   root    proxmox_snapshot snapshot-all --snapshot-type weekly --snapshots-to-keep 3 --running-vms-only
+@monthly  root    proxmox_snapshot snapshot-all --snapshot-type monthly --snapshots-to-keep 3 --running-vms-only
+```
