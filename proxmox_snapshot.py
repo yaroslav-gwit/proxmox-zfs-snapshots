@@ -92,7 +92,7 @@ def snapshot_all(
         snapshot_type:str=typer.Option(..., help="Specify the snapshot type: hourly, daily, weekly, monthly, yearly or custom"),
         running_vms_only:bool=typer.Option(False, help="Only snapshot running VMs"),
         snapshots_to_keep:int=typer.Option(3, help="Specify a number of snapshots to keep"),
-        debug:bool=typer.Option(False, help="Turn on development mode (does not run 'qm' commands)"),
+        debug:bool=typer.Option(False, help="Turn on debug mode (does not run 'qm' commands, only prints them on the screen)"),
     ):
     
     """ Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only """
