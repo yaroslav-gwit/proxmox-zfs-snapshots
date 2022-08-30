@@ -44,9 +44,9 @@ class All:
         vm_dict_list = []
         for item in vm_list:
             if item[0] in vm_exclude_list:
-                pass
+                continue
             elif item[1] in vm_exclude_list:
-                pass
+                continue
             else:
                 _vm_dict = {}
                 _vm_dict["vm_id"] = item[0]
