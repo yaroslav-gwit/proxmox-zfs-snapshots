@@ -105,7 +105,7 @@ def snapshot_all(
         running_vms_only:bool=typer.Option(False, help="Only snapshot running VMs"),
         snapshots_to_keep:int=typer.Option(3, help="Specify a number of snapshots to keep"),
         debug:bool=typer.Option(False, help="Turn on debug mode (does not run 'qm' commands, only prints them on the screen)"),
-        exclude:str=typer.Option(help="Exclude the VM from being backed up/snapshotted, coma separated, like so: 123,444,100"),
+        exclude:str=typer.Option("", help="Exclude the VM from being backed up/snapshotted, coma separated, like so: 123,444,100"),
     ):
     
     """ Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only """
