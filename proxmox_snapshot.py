@@ -10,7 +10,7 @@ import datetime
 class All:
     """This class creates a list of dicts of VMs"""
     
-    def __init__(self, snapshot_type:str = "custom", snapshots_to_keep:int = 3, running_vms_only:bool = False, debug:bool = False):
+    def __init__(self, exclude:str, snapshot_type:str = "custom", snapshots_to_keep:int = 3, running_vms_only:bool = False, debug:bool = False):
         dev = debug
         if not dev:
             command = "qm list | tail -n +2"
@@ -36,18 +36,30 @@ class All:
             if _vm:
                 _vm.append(command_output)
 
+        vm_exclude_list = []
+        if exclude:
+            for i in (exclude.split(",")):
+                vm_exclude_list.append(i)
+
         vm_dict_list = []
         for item in vm_list:
-            _vm_dict = {}
-            _vm_dict["vm_id"] = item[0]
-            _vm_dict["vm_name"] = item[1]
-            _vm_dict["vm_status"] = item[2]
-            _vm_dict["vm_snapshots"] = item[-1]
+            if item[0] in vm_exclude_list:
+                pass
+            elif item[1] in vm_exclude_list:
+                pass
+            else:
+                _vm_dict = {}
+                _vm_dict["vm_id"] = item[0]
+                _vm_dict["vm_name"] = item[1]
+                _vm_dict["vm_status"] = item[2]
+                _vm_dict["vm_snapshots"] = item[-1]
+
             if running_vms_only:
                 if item[2] == "running":
                     vm_dict_list.append(_vm_dict)
             elif not running_vms_only:
                 vm_dict_list.append(_vm_dict)
+
 
         snapshot_types = ["hourly","daily", "weekly", "monthly", "yearly", "custom"]
         if snapshot_type not in snapshot_types:
@@ -93,11 +105,12 @@ def snapshot_all(
         running_vms_only:bool=typer.Option(False, help="Only snapshot running VMs"),
         snapshots_to_keep:int=typer.Option(3, help="Specify a number of snapshots to keep"),
         debug:bool=typer.Option(False, help="Turn on debug mode (does not run 'qm' commands, only prints them on the screen)"),
+        exclude:str=typer.Option(help="Exclude the VM from being backed up/snapshotted, coma separated, like so: 123,444,100"),
     ):
     
     """ Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only """
 
-    for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep, running_vms_only=running_vms_only).snapshot_all():
+    for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep, running_vms_only=running_vms_only, exclude=exclude).snapshot_all():
         print("Running: " + command)
         if not debug:
             subprocess.check_output(command, shell=True)
