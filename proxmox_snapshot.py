@@ -10,7 +10,7 @@ import datetime
 class All:
     """This class creates a list of dicts of VMs"""
     
-    def __init__(self, exclude:str, snapshot_type:str = "custom", snapshots_to_keep:int = 3, running_vms_only:bool = False, debug:bool = False):
+    def __init__(self, snapshot_type:str = "custom", snapshots_to_keep:int = 3, running_vms_only:bool = False, debug:bool = False, exclude:str = ""):
         dev = debug
         if not dev:
             command = "qm list | tail -n +2"
