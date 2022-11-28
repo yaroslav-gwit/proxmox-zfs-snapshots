@@ -6,7 +6,6 @@ import subprocess
 import datetime
 
 
-
 class All:
     """This class creates a list of dicts of VMs"""
     
@@ -60,7 +59,6 @@ class All:
             elif not running_vms_only:
                 vm_dict_list.append(_vm_dict)
 
-
         snapshot_types = ["hourly","daily", "weekly", "monthly", "yearly", "custom"]
         if snapshot_type not in snapshot_types:
             print("Bad snapshot type!")
@@ -72,14 +70,12 @@ class All:
         self.snapshot_name = snapshot_name
         self.snapshots_to_keep = snapshots_to_keep
 
-    
     def snapshot_all(self):
         snapshot_complete = []
         for _dict in self.vm_dict_list:
             snapshot_complete.append("qm snapshot " + _dict["vm_id"] + " " + self.snapshot_name)
         return snapshot_complete
-    
-    
+
     def remove_snapshot(self):
         snapshot_list = []
         for _dict in self.vm_dict_list:
@@ -107,18 +103,32 @@ def snapshot_all(
         debug:bool=typer.Option(False, help="Turn on debug mode (does not run 'qm' commands, only prints them on the screen)"),
         exclude:str=typer.Option("", help="Exclude the VM from being backed up/snapshotted, coma separated, like so: 123,444,100"),
     ):
-    
+
     """ Example: proxmox_snapshot snapshot-all --snapshot-type daily --snapshots-to-keep 5 --running-vms-only """
 
-    for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep, running_vms_only=running_vms_only, exclude=exclude).snapshot_all():
+    for command in All(snapshot_type=snapshot_type,
+                        debug=debug,
+                        snapshots_to_keep=snapshots_to_keep,
+                        running_vms_only=running_vms_only,
+                        exclude=exclude
+        ).snapshot_all():
         print("Running: " + command)
         if not debug:
-            subprocess.check_output(command, shell=True)
-    
-    for command in All(snapshot_type=snapshot_type, debug=debug, snapshots_to_keep=snapshots_to_keep).remove_snapshot():
+            try:
+                subprocess.check_output(command, shell=True, text=True)
+            except Exception as e:
+                print("Could not take a snapshot. Error: " + str(e))
+
+    for command in All(snapshot_type=snapshot_type,
+                        debug=debug,
+                        snapshots_to_keep=snapshots_to_keep
+        ).remove_snapshot():
         print("Running: " + command)
         if not debug:
-            subprocess.check_output(command, shell=True)
+            try:
+                subprocess.check_output(command, shell=True)
+            except Exception as e:
+                print("Could not remove a snapshot. Error: " + str(e))
 
 
 @app.command()
